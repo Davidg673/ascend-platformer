@@ -104,7 +104,7 @@
     <ClInclude Include="src\ofApp.h">
       <Filter>src\header_files</Filter>
     </ClInclude>
-    <ClInclude Include="player.h">
+    <ClInclude Include="src\player.h">
       <Filter>src\header_files</Filter>
     </ClInclude>
   </ItemGroup>
