@@ -40,3 +40,26 @@
 # debug information files
 *.dwo
 /.vs/Ascend
+
+# Ignore openFrameworks core
+/libs/
+/addons/
+/examples/
+/export/
+/scripts/
+/other/
+
+# Ignore build artifacts
+.vs/
+*.obj
+*.pdb
+*.exe
+*.lib
+*.dll
+bin/
+obj/
+ipch/
+
+# Keep code
+!src/
+!bin/data/
