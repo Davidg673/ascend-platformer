@@ -2,11 +2,15 @@
 
 #include "ofMain.h"
 #include "map.h"
+#include "player.h"
+
 
 class ofApp : public ofBaseApp{
 
 	public:
 		Map map;
+
+		Player player= Player(32,64);
 
 		void setup();
 		void update();

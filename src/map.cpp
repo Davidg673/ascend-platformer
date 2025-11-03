@@ -22,16 +22,21 @@ void Map::loadLevel(int levelIndex, int partIndex)
 				t.rect.set(x, y, TILE_SIZE, TILE_SIZE);
 				t.type = tileChar;
 
-				t.edges.top = { { x, y }, { x + TILE_SIZE, y } };
-				t.edges.bottom = { { x, y + TILE_SIZE }, { x + TILE_SIZE, y + TILE_SIZE } };
-				t.edges.left = { { x, y }, { x, y + TILE_SIZE } };
-				t.edges.right = { { x + TILE_SIZE, y }, { x + TILE_SIZE, y + TILE_SIZE } };
+				t.edges.top = ofRectangle(x+5,y,TILE_SIZE-10,2);
+				t.edges.bottom = ofRectangle(x+5, y + TILE_SIZE-2, TILE_SIZE-10, 2);
+				t.edges.left = ofRectangle(x, y+5, 2, TILE_SIZE-5); 
+				t.edges.right = ofRectangle(x + TILE_SIZE-2, y+5, 2, TILE_SIZE-5); 
 
 				tiles.push_back(t);
 
+			} else if (tileChar == 'P')
+			{
+				playerPos.x = x;
+				playerPos.y = y;
 			}
 		}
 	}
+
 }
 
 void Map::renderLevel()
@@ -43,16 +48,16 @@ void Map::renderLevel()
 
 		// Draw edges for visualization
 		ofSetColor(255, 0, 0); // Top edge in red
-		ofDrawLine(tile.edges.top.start, tile.edges.top.end);
+		ofDrawRectangle(tile.edges.top);
 
 		ofSetColor(0, 255, 0); // Bottom edge in green
-		ofDrawLine(tile.edges.bottom.start, tile.edges.bottom.end);
+		ofDrawRectangle(tile.edges.bottom);
 
 		ofSetColor(0, 0, 255); // Left edge in blue
-		ofDrawLine(tile.edges.left.start, tile.edges.left.end);
+		ofDrawRectangle(tile.edges.left);
 
 		ofSetColor(255, 255, 0); // Right edge in yellow
-		ofDrawLine(tile.edges.right.start, tile.edges.right.end);
+		ofDrawRectangle(tile.edges.right);
 	}
 }
 

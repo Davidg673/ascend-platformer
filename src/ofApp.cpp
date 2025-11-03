@@ -5,26 +5,30 @@
 void ofApp::setup()
 {
 	map.loadLevel(0, 0);
+	player.loadPlayerData(map.playerPos);
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
-
+void ofApp::update()
+{
+	player.update(ofGetLastFrameTime(), map.tiles);
 }
 
 //--------------------------------------------------------------
 void ofApp::draw()
 {
 	map.renderLevel();
+	player.drawPlayer();
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-
+void ofApp::keyPressed(int key)
+{
 }
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){
+void ofApp::keyReleased(int key)
+{
 
 }
 

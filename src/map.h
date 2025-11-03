@@ -4,15 +4,17 @@
 #include <vector>
 
 struct Edge {
-	ofVec2f start;
-	ofVec2f end;
+	float x;
+	float y;
+	float width;
+	float height;
 };
 
 struct TileEdges {
-	Edge top;
-	Edge bottom;
-	Edge left;
-	Edge right;
+	ofRectangle top;
+	ofRectangle bottom;
+	ofRectangle left;
+	ofRectangle right;
 };
 
 struct Tile {
@@ -34,6 +36,7 @@ private:
 public:
 
 	vector<Tile> tiles;
+		ofVec2f playerPos;
 
 	void loadLevel(int levelIndex, int partIndex);
 	void renderLevel();
