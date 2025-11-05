@@ -36,7 +36,7 @@ private:
 public:
 
 	vector<Tile> tiles;
-		ofVec2f playerPos;
+	ofVec2f playerPos;
 
 	void loadLevel(int levelIndex, int partIndex);
 	void renderLevel();

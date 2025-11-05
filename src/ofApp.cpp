@@ -24,11 +24,23 @@ void ofApp::draw()
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
+	if (key == 'a' || key == 'A') player.leftPressed = true;
+	if (key == 'd' || key =='D') player.rightPressed = true;
+	if (key == 'w' || key == 'W') player.upPressed = true;
+	if (key == 's' || key == 'S') player.downPressed = true;
+	if (key == ' ') player.jumpPressed = true;
+	if (key == OF_KEY_SHIFT) player.dashPressed = true;
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key)
 {
+	if (key == 'a' || key == 'A') player.leftPressed = false;
+	if (key == 'd' || key == 'D') player.rightPressed = false;
+	if (key == 'w' || key == 'W') player.upPressed = false;
+	if (key == 's' || key =='S') player.downPressed = false;
+	if (key == ' ') player.jumpPressed = false;
+	if (key == OF_KEY_SHIFT) player.dashPressed = false;
 
 }
 

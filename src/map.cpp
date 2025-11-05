@@ -22,10 +22,10 @@ void Map::loadLevel(int levelIndex, int partIndex)
 				t.rect.set(x, y, TILE_SIZE, TILE_SIZE);
 				t.type = tileChar;
 
-				t.edges.top = ofRectangle(x+5,y,TILE_SIZE-10,2);
-				t.edges.bottom = ofRectangle(x+5, y + TILE_SIZE-2, TILE_SIZE-10, 2);
-				t.edges.left = ofRectangle(x, y+5, 2, TILE_SIZE-5); 
-				t.edges.right = ofRectangle(x + TILE_SIZE-2, y+5, 2, TILE_SIZE-5); 
+				t.edges.top = ofRectangle(x+6,y,TILE_SIZE-11,2);
+				t.edges.bottom = ofRectangle(x+6, y + TILE_SIZE-2, TILE_SIZE-11, 2);
+				t.edges.left = ofRectangle(x, y+6, 2, TILE_SIZE-11); 
+				t.edges.right = ofRectangle(x + TILE_SIZE-2, y+6, 2, TILE_SIZE-11); 
 
 				tiles.push_back(t);
 
@@ -41,9 +41,10 @@ void Map::loadLevel(int levelIndex, int partIndex)
 
 void Map::renderLevel()
 {
-	ofSetColor(200, 200, 200);
 	for (const auto& tile : tiles)
 	{
+		ofSetColor(255, 255, 255);
+
 		ofDrawRectangle(tile.rect.getX(),tile.rect.getY(),tile.rect.getWidth(), tile.rect.getHeight());
 
 		// Draw edges for visualization
