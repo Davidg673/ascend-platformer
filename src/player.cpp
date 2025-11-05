@@ -1,74 +1,17 @@
 #include "player.h"
 
-void Player::checkForCollision(vector<Tile> tiles) {
-	onGround = false; //set up for ground collision check
-	onWallRight = false;
-	onWallLeft = false;
-
-	for (const auto & tile : tiles) {
-		if (playerRect.intersects(tile.edges.top)) //ground collision
-		{
-			playerRect.setY(tile.edges.top.getY() - playerRect.getHeight()+1);
-			playerVel.y = 0;
-			onGround = true;
-			canDoubleJump = true;
-
-			if (dashTimer<0)
-				canDash = true;
-		}
-		else if (playerRect.intersects(tile.edges.bottom)) //ceiling collision
-		{
-			playerRect.setY(tile.edges.bottom.getY() +2);
-			playerVel.y = 0;
-		}
-		else if (playerRect.intersects(tile.edges.left) && !leftPressed) //left wall collision
-		{
-			playerRect.setX(tile.edges.left.getX() - playerRect.getWidth()+1);
-			if (!wasOnWallLeft)
-			{
-				playerVel.x = 0;
-				playerVel.y = 0;
-			}
-
-			onWallLeft = true;
-		}
-		else if (playerRect.intersects(tile.edges.right) && !rightPressed) //right wall collision
-		{
-			playerRect.setX(tile.edges.right.getX() + tile.edges.right.getWidth()-1);
-			playerVel.x = 0;
-			if (!wasOnWallRight)
-			{
-				playerVel.x = 0;
-				playerVel.y = 0;
-			}
-
-			onWallRight = true;
-		}
-	}
-
-	if (playerRect.getX() < 0) {
-		//TODO: handle map edge collision
-		playerRect.x = 0;
-	}
-
-	if (playerRect.getX() >ofGetWidth()) {
-		//TODO: handle map edge collision
-		playerRect.x = ofGetWidth()-playerRect.width;
-	}
-}
-
 void Player::drawPlayer() {
 	ofSetColor(135, 206, 250);
 	ofDrawRectangle(playerRect.getX(), playerRect.getY(), playerRect.getWidth(), playerRect.getHeight());
 }
 
-void Player::update(float deltaTime, vector<Tile> tiles) {
+void Player::update(float deltaTime, vector<Tile> tiles, vector<Trap> traps) {
 
 
 	checkInput();
 
 	if (!onGround) {
-		if (!onWallLeft || onWallRight)
+		if (!onWallLeft && !onWallRight)
 			playerVel.y += gravity * deltaTime; // apply gravity
 		else
 			playerVel.y += gravity/3 * deltaTime; // apply wall slide
@@ -99,7 +42,7 @@ void Player::update(float deltaTime, vector<Tile> tiles) {
 	playerRect.setX(playerRect.getX() + playerVel.x * deltaTime);
 	playerRect.setY(playerRect.getY() + playerVel.y * deltaTime); //apply velocity changes
 
-	checkForCollision(tiles); //colision check
+	checkForCollision(tiles,traps); //colision check
 
 	//reset wasOnWalls
 	wasOnWallLeft = onWallLeft;
@@ -152,6 +95,8 @@ Player::Player(float width, float height) {
 }
 
 void Player::loadPlayerData(ofVec2f pos) {
+	playerResetPos = pos;
+
 	playerRect.x = pos.x;
 	playerRect.y = pos.y;
 }
@@ -160,7 +105,7 @@ void Player::dash() {
 
 	if (!canDash || dashTimer > 0) return;
 
-	dashTimer = 1.0f;
+	dashTimer = 0.7f;
 
 	wantsToDash = false;
 	canDash = false;
@@ -221,15 +166,69 @@ void Player::checkInput() {
 	if (leftPressed && upPressed) currentDirection = Direction::leftUp;
 	if (leftPressed && downPressed) currentDirection = Direction ::leftDown;
 
-	if (dashPressed)
-		wantsToDash = true;
-	else
-		wantsToDash = false;
+	wantsToDash = dashPressed ? true : false;
 
-	if (jumpPressed && !prevJumpPressed) wantsToJump = true;
-	else wantsToJump=false;
+	wantsToJump = (jumpPressed && !prevJumpPressed) ? true : false;
 
 	prevJumpPressed = jumpPressed;
 }
 
 
+void Player::checkForCollision(vector<Tile> tiles, vector<Trap> traps) {
+	onGround = false; //set up for ground collision check
+	onWallRight = false;
+	onWallLeft = false;
+
+	for (const auto & tile : tiles) {
+		if (playerRect.intersects(tile.edges.top)) //ground collision
+		{
+			playerRect.setY(tile.edges.top.getY() - playerRect.getHeight() + 1);
+			playerVel.y = 0;
+			onGround = true;
+			canDoubleJump = true;
+
+			if (dashTimer < 0)
+				canDash = true;
+		} else if (playerRect.intersects(tile.edges.bottom)) //ceiling collision
+		{
+			playerRect.setY(tile.edges.bottom.getY() + 2);
+			playerVel.y = 0;
+		} else if (playerRect.intersects(tile.edges.left) && !leftPressed) //left wall collision
+		{
+			playerRect.setX(tile.edges.left.getX() - playerRect.getWidth() + 1);
+			if (!wasOnWallLeft) {
+				playerVel.x = 0;
+				playerVel.y = 0;
+			}
+
+			onWallLeft = true;
+		} else if (playerRect.intersects(tile.edges.right) && !rightPressed) //right wall collision
+		{
+			playerRect.setX(tile.edges.right.getX() + tile.edges.right.getWidth() - 1);
+			playerVel.x = 0;
+			if (!wasOnWallRight) {
+				playerVel.x = 0;
+				playerVel.y = 0;
+			}
+
+			onWallRight = true;
+		}
+	}
+
+	if (playerRect.y < 0) {
+		playerRect.y = 0;
+		playerVel.y = 0;
+	}
+
+	if (playerRect.y > ofGetHeight()) {
+		playerRect.y = playerResetPos.y;
+		playerRect.x = playerResetPos.x;
+	}
+
+	for (const auto & trap : traps) {
+		if (playerRect.intersects(trap.rectangle)) {
+			playerRect.y = playerResetPos.y;
+			playerRect.x = playerResetPos.x;
+		}
+	}
+}

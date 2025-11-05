@@ -43,6 +43,9 @@
     <ClCompile Include="src\player.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\trap.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -108,6 +111,9 @@
       <Filter>src\header_files</Filter>
     </ClInclude>
     <ClInclude Include="src\player.h">
+      <Filter>src\header_files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\trap.h">
       <Filter>src\header_files</Filter>
     </ClInclude>
   </ItemGroup>

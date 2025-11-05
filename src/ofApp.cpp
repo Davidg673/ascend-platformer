@@ -4,14 +4,23 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-	map.loadLevel(0, 0);
+	map.loadLevel();
 	player.loadPlayerData(map.playerPos);
 }
 
 //--------------------------------------------------------------
 void ofApp::update()
 {
-	player.update(ofGetLastFrameTime(), map.tiles);
+	player.update(ofGetLastFrameTime(), map.tiles,map.traps);
+	if (map.checkBorderCollision(player.playerRect))
+	{
+		map.loadLevel();
+		player.loadPlayerData(map.playerPos);
+	}
+	for (auto& trap : map.traps)
+	{
+		if (trap.isMovingX || trap.isMovingY) trap.move(25,2,ofGetLastFrameTime());
+	}
 }
 
 //--------------------------------------------------------------

@@ -34,7 +34,7 @@ private:
 	bool onWallLeft = false;
 
 
-	void checkForCollision(vector<Tile> tiles);
+	void checkForCollision(vector<Tile> tiles,vector<Trap> traps);
 
 	bool wantsToJump;
 	bool wantsToDash;
@@ -60,6 +60,7 @@ public:
 
 	ofVec2f playerVel;
 	ofVec2f acceleration;
+	ofVec2f playerResetPos;
 
 	ofRectangle playerRect;
 
@@ -68,7 +69,7 @@ public:
 
 	void drawPlayer();
 
-	void update(float deltaTime, vector<Tile> tiles);
+	void update(float deltaTime, vector<Tile> tiles, vector<Trap> traps);
 
 	void jump();
 	void doubleJump();

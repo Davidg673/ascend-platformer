@@ -2,6 +2,7 @@
 #include "levels.h"
 #include "ofMain.h"
 #include <vector>
+#include "trap.h"
 
 struct Edge {
 	float x;
@@ -23,22 +24,32 @@ struct Tile {
 	TileEdges edges;
 };
 
-
-class Map
-{
+class Map {
 private:
 	const char ** currentPart;
 	const char *** currentLevel;
+	bool nextLevel = true;
+
+	std::string tileImagePath = ofToDataPath("images/dirt.jpg");
+	std::string tileImagePathTop=ofToDataPath("images/dirtTop.jpg");
+	std::string trapImgagePath;
+
+	ofImage dirtImg;
+	ofImage dirtTopImg;
+	ofImage trapImg;
+
 
 	const int TILE_SIZE = 32;
 
-
 public:
+	int currentPartIndex=0;
 
 	vector<Tile> tiles;
 	ofVec2f playerPos;
+	vector<Trap> traps;
 
-	void loadLevel(int levelIndex, int partIndex);
+	void loadLevel(); //next level or previous
 	void renderLevel();
-
+	bool checkBorderCollision(ofRectangle playerRect);
+	int getLength(const char *** level);
 };
