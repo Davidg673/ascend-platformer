@@ -51,14 +51,7 @@
 
 # Ignore build artifacts
 .vs/
-*.obj
-*.pdb
-*.exe
-*.lib
-*.dll
-bin/
-obj/
-ipch/
+
 
 # Keep code
 !src/
