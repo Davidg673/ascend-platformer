@@ -1,12 +1,53 @@
 #include "player.h"
 
 void Player::drawPlayer() {
-	ofSetColor(135, 206, 250);
-	ofDrawRectangle(playerRect.getX(), playerRect.getY(), playerRect.getWidth(), playerRect.getHeight());
+	float deltaTime = ofGetLastFrameTime();
+
+	/***************************************Debugging
+		ofNoFill();
+	ofSetColor(255, 255, 255);
+	ofDrawRectangle(playerRect);
+
+	ofFill();
+	*/
+	if (currentDirection == Direction::right || currentDirection == Direction::rightUp || currentDirection == Direction::rightDown) directionFloat = 1;
+	if (currentDirection == Direction::left || currentDirection == Direction::leftUp || currentDirection == Direction::leftDown) directionFloat = -1;
+
+	if (playerVel.y > 1.0f)
+	{
+		if (directionFloat > 0)
+			animateSprite(deltaTime, fallSprite, 0, SPRITE_OFFSET_FALL);
+		else
+			animateSprite(deltaTime, fallSprite, SPRITE_OFFSET_FALL, fallSprite.size() - 1);
+		return;
+	}
+
+	if (playerVel.y < -1.0f) {
+		if (directionFloat > 0)
+			animateSprite(deltaTime, jumpSprite, 0, SPRITE_OFFSET_JUMP-1,true);
+		else
+			animateSprite(deltaTime, jumpSprite, SPRITE_OFFSET_JUMP, jumpSprite.size() - 1,true);
+		return;
+
+	}
+
+	if (abs(playerVel.x) < 150.0f)
+	{
+		if (directionFloat>0)
+			animateSprite(deltaTime,idleSprite,0,SPRITE_OFFSET_IDLE-1);
+		else
+			animateSprite(deltaTime, idleSprite, SPRITE_OFFSET_IDLE,idleSprite.size()-1);
+	}
+	else
+	{
+		if (directionFloat > 0)
+			animateSprite(deltaTime, walkSprite, 0, SPRITE_OFFSET_WALK);
+		else
+			animateSprite(deltaTime, walkSprite, SPRITE_OFFSET_WALK, walkSprite.size() - 1);
+	}
 }
 
-void Player::update(float deltaTime, vector<Tile> tiles, vector<Trap> traps) {
-
+void Player::update(float deltaTime, vector<Tile> tiles, vector<Trap> traps, vector<JumpPad>& pads) {
 
 	checkInput();
 
@@ -42,7 +83,7 @@ void Player::update(float deltaTime, vector<Tile> tiles, vector<Trap> traps) {
 	playerRect.setX(playerRect.getX() + playerVel.x * deltaTime);
 	playerRect.setY(playerRect.getY() + playerVel.y * deltaTime); //apply velocity changes
 
-	checkForCollision(tiles,traps); //colision check
+	checkForCollision(tiles,traps,pads); //colision check
 
 	//reset wasOnWalls
 	wasOnWallLeft = onWallLeft;
@@ -68,6 +109,17 @@ void Player::update(float deltaTime, vector<Tile> tiles, vector<Trap> traps) {
 		dashTimer -= deltaTime;
 	}
 
+	if (dashDampTimer > 0)
+	{
+		dashDampTimer -= deltaTime;
+	}
+	else if (applyDashDamping)
+	{
+		playerVel.x = playerVel.x * 0.3f;
+		playerVel.y = playerVel.y * 0.3f;
+		applyDashDamping = false;
+	}
+
 }
 
 
@@ -89,9 +141,88 @@ void Player::doubleJump()
 }
 
 Player::Player(float width, float height) {
+
 	ofRectangle rect = ofRectangle(0, 0, width, height);
 
 	playerRect.set(rect);
+
+	//Walk animation
+	for (int x=0; x < SPRITE_OFFSET_WALK; x++)  //walking right animations 0-5
+	{
+		ofImage img;
+
+		img.load(ofToDataPath("images/WalkAnimation/Walk" + ofToString(x) + ".png"));
+
+		walkSprite.push_back(img);
+	}
+
+	for (int x = 0; x < SPRITE_OFFSET_WALK; x++)
+	{  //walking left animation 6-11
+		ofImage img;
+
+		img.load(ofToDataPath("images/WalkAnimation/Walk" + ofToString(x+SPRITE_OFFSET_WALK) + ".png"));
+
+		walkSprite.push_back(img);
+	}
+
+	//Idle animations
+	for (int x = 0; x < SPRITE_OFFSET_IDLE; x++) //right facing
+	{
+		ofImage img;
+
+		img.load(ofToDataPath("images/IdleAnimation/Idle" + ofToString(x) + ".png"));
+
+		idleSprite.push_back(img);
+	}
+
+	for (int x = 0; x < SPRITE_OFFSET_IDLE; x++) //left facing
+	{
+		ofImage img;
+
+		img.load(ofToDataPath("images/IdleAnimation/Idle" + ofToString(x + SPRITE_OFFSET_IDLE) + ".png"));
+
+		idleSprite.push_back(img);
+	}
+
+	//jumping animation
+	for (int x = 0; x <SPRITE_OFFSET_JUMP; x++) //right facing
+	{
+		ofImage img;
+
+		img.load(ofToDataPath("images/JumpAnimation/Jump" + ofToString(x) + ".png"));
+
+		jumpSprite.push_back(img);
+	}
+
+	for (int x = 0; x < SPRITE_OFFSET_JUMP; x++) //left facing
+	{
+		ofImage img;
+
+		img.load(ofToDataPath("images/JumpAnimation/Jump" + ofToString(x + SPRITE_OFFSET_JUMP) + ".png"));
+
+		jumpSprite.push_back(img);
+	}
+
+	
+	//falling animation
+	for (int x = 0; x < SPRITE_OFFSET_FALL; x++) //right facing
+	{
+		ofImage img;
+
+		img.load(ofToDataPath("images/FallAnimation/Fall" + ofToString(x) + ".png"));
+
+		fallSprite.push_back(img);
+	}
+
+	for (int x = 0; x < SPRITE_OFFSET_FALL; x++) //left facing
+	{
+		ofImage img;
+
+		img.load(ofToDataPath("images/FallAnimation/Fall" + ofToString(x + SPRITE_OFFSET_FALL) + ".png"));
+
+		fallSprite.push_back(img);
+	}
+
 }
 
 void Player::loadPlayerData(ofVec2f pos) {
@@ -146,8 +277,12 @@ void Player::dash() {
 		break;
 	}
 
-	playerVel.x = dashAcceleration * dirX;
-	playerVel.y = dashAcceleration * dirY;
+	float dashBoost = ((dirX == 1 || dirX == -1) && dirY == 0) ? 1.5f : 1.0f; //makes horizontal dash more effective
+	playerVel.x = dashAcceleration * dirX * dashBoost;
+	playerVel.y = dashAcceleration * dirY * dashBoost;
+
+	applyDashDamping = true;
+	dashDampTimer = 0.2f;
 
 }
 
@@ -174,7 +309,7 @@ void Player::checkInput() {
 }
 
 
-void Player::checkForCollision(vector<Tile> tiles, vector<Trap> traps) {
+void Player::checkForCollision(vector<Tile> tiles, vector<Trap> traps, vector<JumpPad>& pads) {
 	onGround = false; //set up for ground collision check
 	onWallRight = false;
 	onWallLeft = false;
@@ -231,4 +366,32 @@ void Player::checkForCollision(vector<Tile> tiles, vector<Trap> traps) {
 			playerRect.x = playerResetPos.x;
 		}
 	}
+
+	for (auto & pad : pads)
+	{
+		if (playerRect.intersects(pad.rect))
+		{
+			pad.launching = true;
+			pad.animationFrame = 0;
+			playerVel.y = -jumpForce * 2.0f;
+			canDoubleJump = true;
+			canDash = true;
+		}
+	}
+}
+
+
+void Player::animateSprite(float deltaTime, vector<ofImage>& spriteList, float start, float end, float isJumping)
+{
+	if (currentFrame < start) currentFrame = start;
+
+	currentFrame += animationSpeed * deltaTime;
+
+	if (currentFrame > end)
+	{
+		currentFrame =  isJumping ? end : start;
+	}
+	currentFrame += animationSpeed * deltaTime;
+
+	spriteList[currentFrame].draw(playerRect.x-10, playerRect.y, playerRect.width+20, playerRect.height);
 }

@@ -34,19 +34,26 @@ private:
 	bool onWallLeft = false;
 
 
-	void checkForCollision(vector<Tile> tiles,vector<Trap> traps);
+	void checkForCollision(vector<Tile> tiles, vector<Trap> traps, vector<JumpPad>& pads);
 
 	bool wantsToJump;
 	bool wantsToDash;
 	bool canDash = true;
 	bool canDoubleJump;
+	bool applyDashDamping;
+
 
 	float jumpBufferTimer = 0.1f;
 	float jumpBufferTime = 0.0f;
-	Direction currentDirection;
+	Direction currentDirection=right;
 	float directionFloat=0;
 	float dashTimer = 0;
+	float dashDampTimer = 0;
 
+	vector<ofImage> jumpSprite;
+	vector<ofImage> idleSprite;
+	vector<ofImage> walkSprite;
+	vector<ofImage> fallSprite;
 
 public:
 
@@ -66,10 +73,17 @@ public:
 
 	bool wantsToMove;
 
+	float currentFrame = 0.0f;
+	float animationSpeed = 3.0f;
+
+	static const int SPRITE_OFFSET_JUMP = 4;
+	static const int SPRITE_OFFSET_WALK = 6;
+	static const int SPRITE_OFFSET_IDLE = 5;
+	static const int SPRITE_OFFSET_FALL = 4;
 
 	void drawPlayer();
 
-	void update(float deltaTime, vector<Tile> tiles, vector<Trap> traps);
+	void update(float deltaTime, vector<Tile> tiles, vector<Trap> traps, vector<JumpPad>& pads);
 
 	void jump();
 	void doubleJump();
@@ -82,4 +96,5 @@ public:
 
 	void checkInput();
 
+	void animateSprite(float deltaTime, vector<ofImage> & spriteList,float start, float end, float isJumping=false);
 };

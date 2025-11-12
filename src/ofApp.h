@@ -10,7 +10,9 @@ class ofApp : public ofBaseApp{
 	public:
 		Map map;
 
-		Player player= Player(32,64);
+		Player player= Player(24, 48);
+
+		bool running = true;
 
 		void setup();
 		void update();

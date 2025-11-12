@@ -14,14 +14,16 @@ public:
 	float baseX;
 	float baseY;
 
-	ofImage image;
+	std::string type;
 	float rotation;
 
 	bool isMovingX;
 	bool isMovingY;
 
+	float phaseOffset;
+
 	void move(float maxVal, float speed, float deltaTime);
 
-	Trap(float rotation, bool isMovingX, bool isMovingY, float posX, float posY);
+	Trap(float rotation, bool isMovingX, bool isMovingY, float posX, float posY, float phaseOffset=0);
 
 };
