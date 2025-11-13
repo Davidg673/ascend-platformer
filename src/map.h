@@ -59,6 +59,9 @@ private:
 	vector<RainDrop> rainDrops;
 	ofImage spikeImg;
 
+	
+	ofSoundPlayer rainSound;
+
 	float currentSawFrame = 0.0f;
 	float sawAnimationSpeed = 5.0f;
 	float jumpPadAnimationSpeed = 5.0f;

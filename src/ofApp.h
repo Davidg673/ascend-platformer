@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofSoundPlayer.h"
 #include "map.h"
 #include "player.h"
 

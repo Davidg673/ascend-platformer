@@ -135,14 +135,6 @@ void Map::renderLevel()
 	{
 		if (trap.type == "s") spikeImg.draw(trap.rectangle.x, trap.rectangle.y, trap.rectangle.width, trap.rectangle.height);
 		if (trap.type == "t" || trap.type == "T") animateSprite(ofGetLastFrameTime(), sawSprite, currentSawFrame, sawAnimationSpeed, trap.rectangle);
-
-		/****************************************************************Debugging
-		ofNoFill();
-		ofSetColor(255, 0, 0); 
-		ofDrawRectangle(trap.rectangle);
-
-		ofFill();
-		*/
 	}
 
 	for (JumpPad& pad : jumpPads)
@@ -261,6 +253,12 @@ void Map::setupRain()
 
 		rainDrops.push_back(RainDrop { pos, speed, size, -25 });
 	}
+
+	//setup rain sounds
+	rainSound.load(ofToDataPath("sounds/rain.ogg"));
+	rainSound.setLoop(true);
+	rainSound.setVolume(0.2f);
+	rainSound.play();
 }
 
 void Map::updateRain()

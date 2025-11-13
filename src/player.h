@@ -28,11 +28,11 @@ private:
 	float airDamping=0.02f;
 
 	bool onGround = false;
+	bool inAir = false;
 	bool onWallRight = false;
 	bool wasOnWallLeft = false;
 	bool wasOnWallRight = false;
 	bool onWallLeft = false;
-
 
 	void checkForCollision(vector<Tile> tiles, vector<Trap> traps, vector<JumpPad>& pads);
 
@@ -41,6 +41,7 @@ private:
 	bool canDash = true;
 	bool canDoubleJump;
 	bool applyDashDamping;
+	bool wantsToDrawDash = false;
 
 
 	float jumpBufferTimer = 0.1f;
@@ -49,11 +50,29 @@ private:
 	float directionFloat=0;
 	float dashTimer = 0;
 	float dashDampTimer = 0;
+	float walkSoundTimer = 0;
+	float distanceTraveled = 0;
+	float dashImageAngle = 0;
+	float dashImagePosX = 0;
+	float dashImagePosY = 0;
+
 
 	vector<ofImage> jumpSprite;
 	vector<ofImage> idleSprite;
 	vector<ofImage> walkSprite;
 	vector<ofImage> fallSprite;
+	vector<ofImage> dashSprite;
+
+
+	ofSoundPlayer jumpSound;
+	ofSoundPlayer walkSound;
+	ofSoundPlayer landSound;
+	ofSoundPlayer dashSound;
+	ofSoundPlayer deathSound;
+	ofSoundPlayer jumpPadSound;
+
+	void drawDashSprite(float deltaTime);
+
 
 public:
 
@@ -73,13 +92,18 @@ public:
 
 	bool wantsToMove;
 
-	float currentFrame = 0.0f;
+	float currentFrame = 0;
 	float animationSpeed = 3.0f;
+	float dashAnimationSpeed = 15.0f;
+	float dashAnimationFrame = 0;
+
+
 
 	static const int SPRITE_OFFSET_JUMP = 4;
 	static const int SPRITE_OFFSET_WALK = 6;
 	static const int SPRITE_OFFSET_IDLE = 5;
 	static const int SPRITE_OFFSET_FALL = 4;
+
 
 	void drawPlayer();
 
@@ -96,5 +120,6 @@ public:
 
 	void checkInput();
 
-	void animateSprite(float deltaTime, vector<ofImage> & spriteList,float start, float end, float isJumping=false);
+	void animateSprite(float deltaTime, vector<ofImage> & spriteList,float startIndex, float endIndex, float isJumping=false);
+
 };

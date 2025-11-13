@@ -4,6 +4,7 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+
 	map.loadLevel();
 	map.setupRain();
 	player.loadPlayerData(map.playerPos);

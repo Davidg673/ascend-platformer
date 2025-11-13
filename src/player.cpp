@@ -1,46 +1,47 @@
 #include "player.h"
 
-void Player::drawPlayer() {
+void Player::drawPlayer()
+{
 	float deltaTime = ofGetLastFrameTime();
 
-	/***************************************Debugging
-		ofNoFill();
-	ofSetColor(255, 255, 255);
-	ofDrawRectangle(playerRect);
-
-	ofFill();
-	*/
 	if (currentDirection == Direction::right || currentDirection == Direction::rightUp || currentDirection == Direction::rightDown) directionFloat = 1;
 	if (currentDirection == Direction::left || currentDirection == Direction::leftUp || currentDirection == Direction::leftDown) directionFloat = -1;
+
+	//check for drawing dash sprite
+	if (wantsToDrawDash) {
+		drawDashSprite(deltaTime);
+	}
+
+	///sprite list contains two types of iamges, right oriented and left oriented. right oriented comes first in the list
 
 	if (playerVel.y > 1.0f)
 	{
 		if (directionFloat > 0)
-			animateSprite(deltaTime, fallSprite, 0, SPRITE_OFFSET_FALL);
+			animateSprite(deltaTime, fallSprite, 0, SPRITE_OFFSET_FALL); 
 		else
-			animateSprite(deltaTime, fallSprite, SPRITE_OFFSET_FALL, fallSprite.size() - 1);
+			animateSprite(deltaTime, fallSprite, SPRITE_OFFSET_FALL, fallSprite.size() - 1); 
 		return;
 	}
 
 	if (playerVel.y < -1.0f) {
-		if (directionFloat > 0)
-			animateSprite(deltaTime, jumpSprite, 0, SPRITE_OFFSET_JUMP-1,true);
+		if (directionFloat > 0) //direction left right of the player
+			animateSprite(deltaTime, jumpSprite, 0, SPRITE_OFFSET_JUMP-1,true);  //if player jumps to the right, use firt part of list
 		else
-			animateSprite(deltaTime, jumpSprite, SPRITE_OFFSET_JUMP, jumpSprite.size() - 1,true);
+			animateSprite(deltaTime, jumpSprite, SPRITE_OFFSET_JUMP, jumpSprite.size() - 1,true); //player jumps to the left use second part
 		return;
 
 	}
 
-	if (abs(playerVel.x) < 150.0f)
+	if (abs(playerVel.x) < 150.0f) //if player is not moving play idle animation
 	{
 		if (directionFloat>0)
-			animateSprite(deltaTime,idleSprite,0,SPRITE_OFFSET_IDLE-1);
+			animateSprite(deltaTime,idleSprite,0,SPRITE_OFFSET_IDLE-1);  //righ facing
 		else
-			animateSprite(deltaTime, idleSprite, SPRITE_OFFSET_IDLE,idleSprite.size()-1);
+			animateSprite(deltaTime, idleSprite, SPRITE_OFFSET_IDLE,idleSprite.size()-1); //left facing
 	}
 	else
-	{
-		if (directionFloat > 0)
+	{ 
+		if (directionFloat > 0) //if player is facing right and moving, animate sprite using first part of the sprite list
 			animateSprite(deltaTime, walkSprite, 0, SPRITE_OFFSET_WALK);
 		else
 			animateSprite(deltaTime, walkSprite, SPRITE_OFFSET_WALK, walkSprite.size() - 1);
@@ -52,11 +53,16 @@ void Player::update(float deltaTime, vector<Tile> tiles, vector<Trap> traps, vec
 	checkInput();
 
 	if (!onGround) {
+		inAir = true;
 		if (!onWallLeft && !onWallRight)
 			playerVel.y += gravity * deltaTime; // apply gravity
 		else
 			playerVel.y += gravity/3 * deltaTime; // apply wall slide
-
+	}
+	else if (inAir) // if landed play sound
+	{
+		inAir = false;
+		landSound.play();
 	}
 
 
@@ -78,7 +84,10 @@ void Player::update(float deltaTime, vector<Tile> tiles, vector<Trap> traps, vec
 		dash();
 	}
 
-	if (abs(playerVel.x) < 0.01f) playerVel.x = 0; //clamp velocity
+	if (abs(playerVel.x) < 0.01f)
+	{
+		playerVel.x = 0; //clamp velocity
+	}
 
 	playerRect.setX(playerRect.getX() + playerVel.x * deltaTime);
 	playerRect.setY(playerRect.getY() + playerVel.y * deltaTime); //apply velocity changes
@@ -103,7 +112,7 @@ void Player::update(float deltaTime, vector<Tile> tiles, vector<Trap> traps, vec
 		wantsToJump = false;
 	}
 
-	//canDash timer
+	//handle Timers
 	if (dashTimer > 0)
 	{
 		dashTimer -= deltaTime;
@@ -113,16 +122,21 @@ void Player::update(float deltaTime, vector<Tile> tiles, vector<Trap> traps, vec
 	{
 		dashDampTimer -= deltaTime;
 	}
-	else if (applyDashDamping)
-	{
+	else if (applyDashDamping) {
 		playerVel.x = playerVel.x * 0.3f;
 		playerVel.y = playerVel.y * 0.3f;
 		applyDashDamping = false;
 	}
 
+	//play walk sound
+	distanceTraveled += abs(deltaTime * playerVel.x);
+
+	if (abs(playerVel.x) > 0.01f && onGround && distanceTraveled >= 75.0f) {
+		walkSound.play();
+		walkSoundTimer = 0.5f;
+		distanceTraveled = 0;
+	}
 }
-
-
 
 void Player::jump() {
 
@@ -132,12 +146,16 @@ void Player::jump() {
 
 	wantsToJump = false;
 	onGround = false;
+
+	jumpSound.play();
 }
 
 void Player::doubleJump()
 {
 	playerVel.y = -jumpForce;
 	canDoubleJump = false;
+
+	jumpSound.play();
 }
 
 Player::Player(float width, float height) {
@@ -223,6 +241,43 @@ Player::Player(float width, float height) {
 		fallSprite.push_back(img);
 	}
 
+	//dash animation
+	for (int x = 0; x < 11; x++) //right facing
+	{
+		ofImage img;
+
+		img.load(ofToDataPath("images/dash/Dash" + ofToString(x) + ".png"));
+
+		dashSprite.push_back(img);
+	}
+
+
+	//load sounds
+	jumpSound.load(ofToDataPath("sounds/jump.wav"));
+	jumpSound.setMultiPlay(false);
+	jumpSound.setVolume(0.03f);
+
+
+	walkSound.load(ofToDataPath("sounds/walk.wav"));
+	walkSound.setVolume(0.05f);
+	walkSound.setMultiPlay(false);
+
+
+	landSound.load(ofToDataPath("sounds/land.wav"));
+	landSound.setMultiPlay(false);
+	landSound.setVolume(0.2f);
+
+	dashSound.load(ofToDataPath("sounds/dash.wav"));
+	dashSound.setMultiPlay(false);
+	dashSound.setVolume(0.1f);
+
+	deathSound.load(ofToDataPath("sounds/death.ogg"));
+	deathSound.setMultiPlay(false);
+	deathSound.setVolume(0.1f);
+
+	jumpPadSound.load(ofToDataPath("sounds/jumpPad.wav"));
+	jumpPadSound.setMultiPlay(false);
+	jumpPadSound.setVolume(0.08f);
 }
 
 void Player::loadPlayerData(ofVec2f pos) {
@@ -243,38 +298,45 @@ void Player::dash() {
 
 	float dirX = 0;
 	float dirY = 0;
+	float angle = 0;
 
 	switch (currentDirection) {
-	case Player::right:
-		dirX = 1;
-		break;
-	case Player::left:
-		dirX = -1;
-		break;
-	case Player::up:
-		dirY = -1;
-		break;
-	case Player::down:
-		dirY = 1;
-		break;
-	case Player::rightUp:
-		dirX = 1;
-		dirY = -1;
-		break;
-	case Player::rightDown:
-		dirX = 1;
-		dirY = 1;
-		break;
-	case Player::leftUp:
-		dirX = -1;
-		dirY = -1;
-		break;
-	case Player::leftDown:
-		dirX = -1;
-		dirY = 1;
-		break;
-	default:
-		break;
+		case Player::right:
+			dirX = 1;
+			angle = 0.0f;
+			break;
+		case Player::down:
+			dirY = 1;
+			angle = 90.0f;
+			break;
+		case Player::left:
+			dirX = -1;
+			angle = 180.0f;
+			break;
+		case Player::up:
+			dirY = -1;
+			angle = 270.0f;
+			break;
+		case Player::rightDown:
+			dirX = 1;
+			dirY = 1;
+			angle = 45.0f;
+			break;
+		case Player::leftDown:
+			dirX = -1;
+			dirY = 1;
+			angle = 135.0f;
+			break;
+		case Player::leftUp:
+			dirX = -1;
+			dirY = -1;
+			angle = 225.0f;
+			break;
+		case Player::rightUp:
+			dirX = 1;
+			dirY = -1;
+			angle = 315.0f;
+			break;
 	}
 
 	float dashBoost = ((dirX == 1 || dirX == -1) && dirY == 0) ? 1.5f : 1.0f; //makes horizontal dash more effective
@@ -284,8 +346,16 @@ void Player::dash() {
 	applyDashDamping = true;
 	dashDampTimer = 0.2f;
 
-}
+	dashSound.play();
 
+	dashImageAngle = fmod(angle + 180,360);
+
+	dashImagePosX = playerRect.x;
+	dashImagePosY = playerRect.y;
+
+	wantsToDrawDash = true;
+}
+	
 
 void Player::checkInput() {
 
@@ -350,20 +420,22 @@ void Player::checkForCollision(vector<Tile> tiles, vector<Trap> traps, vector<Ju
 		}
 	}
 
-	if (playerRect.y < 0) {
+	if (playerRect.y < 0) {  //player hit ceiling
 		playerRect.y = 0;
 		playerVel.y = 0;
 	}
-
-	if (playerRect.y > ofGetHeight()) {
+	 
+	if (playerRect.y > ofGetHeight()) { //player fell and died
 		playerRect.y = playerResetPos.y;
 		playerRect.x = playerResetPos.x;
+		deathSound.play();
 	}
 
-	for (const auto & trap : traps) {
+	for (const auto & trap : traps) { //player hit a trap
 		if (playerRect.intersects(trap.rectangle)) {
 			playerRect.y = playerResetPos.y;
 			playerRect.x = playerResetPos.x;
+			deathSound.play();
 		}
 	}
 
@@ -376,22 +448,50 @@ void Player::checkForCollision(vector<Tile> tiles, vector<Trap> traps, vector<Ju
 			playerVel.y = -jumpForce * 2.0f;
 			canDoubleJump = true;
 			canDash = true;
+			jumpPadSound.play();
 		}
 	}
 }
 
 
-void Player::animateSprite(float deltaTime, vector<ofImage>& spriteList, float start, float end, float isJumping)
+void Player::animateSprite(float deltaTime, vector<ofImage>& spriteList, float startIndex, float endIndex, float isJumping)
 {
-	if (currentFrame < start) currentFrame = start;
+	if (currentFrame < startIndex) currentFrame = startIndex; //if sprite rotated from left to right, reset to right to avoid stutters in animation
 
 	currentFrame += animationSpeed * deltaTime;
 
-	if (currentFrame > end)
+	if (currentFrame > endIndex)
 	{
-		currentFrame =  isJumping ? end : start;
+		currentFrame =  isJumping ? endIndex : startIndex; //sets jump sprite one frame back to avoid stuttering
 	}
-	currentFrame += animationSpeed * deltaTime;
 
 	spriteList[currentFrame].draw(playerRect.x-10, playerRect.y, playerRect.width+20, playerRect.height);
+}
+
+void Player::drawDashSprite(float deltaTime)
+{
+	dashAnimationFrame += dashAnimationSpeed * deltaTime;
+
+	if (dashAnimationFrame > dashSprite.size()) {
+		dashAnimationFrame = 0;
+		wantsToDrawDash = false;
+		return;
+	}
+
+	ofImage currentImage = dashSprite[dashAnimationFrame];
+
+	ofPushMatrix();
+
+	float radians = ofDegToRad(dashImageAngle);
+
+	float centerX = (dashImagePosX + playerRect.width / 2) + cos(radians) * 50;
+	float centerY = (dashImagePosY + playerRect.height / 2) + sin(radians) * 50;
+
+	ofTranslate(centerX, centerY);
+	ofRotateDeg(dashImageAngle);
+
+	currentImage.draw(-currentImage.getWidth()/2 , - currentImage.getHeight()/2 );
+
+	ofPopMatrix();
+
 }
