@@ -208,7 +208,7 @@ void Map::animateSprite(float deltaTime, vector<ofImage> & spriteList , float& c
 }
 
 
-void Map::moveBackground(ofVec2f playerVel)
+void Map::moveBackground()
 {
 	backgroundSprite[0].draw(0, 0, ofGetWidth(), ofGetHeight());
 

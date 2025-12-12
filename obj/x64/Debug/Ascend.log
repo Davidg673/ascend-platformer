@@ -1,5 +1,5 @@
 ﻿  Scanning sources for module dependencies...
-  player.cpp
+  map.cpp
 LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/FORCE' specification
 map.obj : warning LNK4006: "char const * * LEVEL_1_PART_1" (?LEVEL_1_PART_1@@3PAPEBDA) already defined in main.obj; second definition ignored
 map.obj : warning LNK4006: "char const * * LEVEL_1_PART_2" (?LEVEL_1_PART_2@@3PAPEBDA) already defined in main.obj; second definition ignored

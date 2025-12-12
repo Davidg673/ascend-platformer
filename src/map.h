@@ -4,12 +4,6 @@
 #include <vector>
 #include "trap.h"
 
-struct Edge {
-	float x;
-	float y;
-	float width;
-	float height;
-};
 
 struct TileEdges {
 	ofRectangle top;
@@ -92,7 +86,7 @@ public:
 	void animateSprite(float deltaTime, vector<ofImage> & spriteList, float & currentFrame, float animationSpeed, ofRectangle rectangle);
 
 	void checkJumpPadCollision(ofRectangle& playerRect);
-	void moveBackground(ofVec2f playerVel);
+	void moveBackground();
 
 	void setupRain();
 	void updateRain();

@@ -428,6 +428,8 @@ void Player::checkForCollision(vector<Tile> tiles, vector<Trap> traps, vector<Ju
 	if (playerRect.y > ofGetHeight()) { //player fell and died
 		playerRect.y = playerResetPos.y;
 		playerRect.x = playerResetPos.x;
+		canDash = true;
+		canDoubleJump = true;
 		deathSound.play();
 	}
 
@@ -435,6 +437,8 @@ void Player::checkForCollision(vector<Tile> tiles, vector<Trap> traps, vector<Ju
 		if (playerRect.intersects(trap.rectangle)) {
 			playerRect.y = playerResetPos.y;
 			playerRect.x = playerResetPos.x;
+			canDash = true;
+			canDoubleJump = true;
 			deathSound.play();
 		}
 	}

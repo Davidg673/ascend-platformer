@@ -33,7 +33,7 @@ void ofApp::draw()
 {
 	if (running)
 	{
-		map.moveBackground(player.playerVel);
+		map.moveBackground();
 		map.renderLevel();
 		player.drawPlayer();
 	} else
