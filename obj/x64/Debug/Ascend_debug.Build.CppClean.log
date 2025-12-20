@@ -1,31 +1,32 @@
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\build\src\debug\trap.obj
+d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\addons\ofxgui\src\debug\ofxbasegui.obj
+d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\addons\ofxgui\src\debug\ofxslidergroup.obj
+d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\addons\ofxgui\src\debug\ofxpanel.obj
+d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\addons\ofxgui\src\debug\ofxslider.obj
+d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\addons\ofxgui\src\debug\ofxbutton.obj
+d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\addons\ofxgui\src\debug\ofxcolorpicker.obj
+d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\addons\ofxgui\src\debug\ofxguigroup.obj
+d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\addons\ofxgui\src\debug\ofxinputfield.obj
+d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\addons\ofxgui\src\debug\ofxlabel.obj
+d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\addons\ofxgui\src\debug\ofxtoggle.obj
 d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\build\src\debug\ofapp.obj
 d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\build\src\debug\main.obj
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\build\src\debug\map.obj
+d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\build\src\debug\trap.obj
 d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\build\src\debug\player.obj
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\addons\ofxgui\src\debug\ofxslidergroup.obj
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\addons\ofxgui\src\debug\ofxcolorpicker.obj
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\addons\ofxgui\src\debug\ofxinputfield.obj
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\addons\ofxgui\src\debug\ofxbutton.obj
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\addons\ofxgui\src\debug\ofxpanel.obj
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\addons\ofxgui\src\debug\ofxlabel.obj
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\addons\ofxgui\src\debug\ofxslider.obj
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\addons\ofxgui\src\debug\ofxbasegui.obj
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\addons\ofxgui\src\debug\ofxguigroup.obj
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\addons\ofxgui\src\debug\ofxtoggle.obj
+d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\build\src\debug\map.obj
 d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\bin\ascend_debug.exe
 d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\bin\ascend_debug.pdb
 d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\icon.res
 d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\bin\ascend_debug.lib
 d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\bin\ascend_debug.exp
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\ascend.tlog\cl.10392.write.1.tlog
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\ascend.tlog\cl.command.1.tlog
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\ascend.tlog\cl.items.tlog
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\ascend.tlog\cl.read.1.tlog
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\ascend.tlog\link.command.1.tlog
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\ascend.tlog\link.read.1.tlog
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\ascend.tlog\link.secondary.1.tlog
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\ascend.tlog\link.write.1.tlog
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\ascend.tlog\rc.command.1.tlog
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\ascend.tlog\rc.read.1.tlog
-d:\games computing project\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\ascend.tlog\rc.write.1.tlog
+d:\ascendmaster\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\icon.res
+d:\ascendmaster\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\ascend.tlog\cl.command.1.tlog
+d:\ascendmaster\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\ascend.tlog\cl.items.tlog
+d:\ascendmaster\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\ascend.tlog\cl.read.1.tlog
+d:\ascendmaster\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\ascend.tlog\cl.write.1.tlog
+d:\ascendmaster\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\ascend.tlog\link.command.1.tlog
+d:\ascendmaster\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\ascend.tlog\link.read.1.tlog
+d:\ascendmaster\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\ascend.tlog\link.secondary.1.tlog
+d:\ascendmaster\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\ascend.tlog\link.write.1.tlog
+d:\ascendmaster\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\ascend.tlog\rc.command.1.tlog
+d:\ascendmaster\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\ascend.tlog\rc.read.1.tlog
+d:\ascendmaster\of_v0.12.1_vs_64_release\apps\myapps\ascend\obj\x64\debug\ascend.tlog\rc.write.1.tlog

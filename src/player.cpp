@@ -271,7 +271,7 @@ Player::Player(float width, float height) {
 	dashSound.setMultiPlay(false);
 	dashSound.setVolume(0.1f);
 
-	deathSound.load(ofToDataPath("sounds/death.ogg"));
+	deathSound.load(ofToDataPath("sounds/death.mp4"));
 	deathSound.setMultiPlay(false);
 	deathSound.setVolume(0.1f);
 
@@ -428,8 +428,6 @@ void Player::checkForCollision(vector<Tile> tiles, vector<Trap> traps, vector<Ju
 	if (playerRect.y > ofGetHeight()) { //player fell and died
 		playerRect.y = playerResetPos.y;
 		playerRect.x = playerResetPos.x;
-		canDash = true;
-		canDoubleJump = true;
 		deathSound.play();
 	}
 
@@ -437,8 +435,6 @@ void Player::checkForCollision(vector<Tile> tiles, vector<Trap> traps, vector<Ju
 		if (playerRect.intersects(trap.rectangle)) {
 			playerRect.y = playerResetPos.y;
 			playerRect.x = playerResetPos.x;
-			canDash = true;
-			canDoubleJump = true;
 			deathSound.play();
 		}
 	}

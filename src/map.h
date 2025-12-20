@@ -4,6 +4,12 @@
 #include <vector>
 #include "trap.h"
 
+struct Edge {
+	float x;
+	float y;
+	float width;
+	float height;
+};
 
 struct TileEdges {
 	ofRectangle top;
@@ -32,6 +38,13 @@ struct RainDrop
 	float rotation;
 };
 
+struct VisualElement
+{
+	ofRectangle pos;
+	vector<ofImage> *sprite=nullptr;
+	float frame = 0.0f;
+	float animationSpeed = 3.5f;
+};
 
 class Map {
 private:
@@ -50,6 +63,7 @@ private:
 	vector<ofImage> sawSprite;
 	vector<ofImage> jumpPadSprite;
 	vector<ofImage> backgroundSprite;
+	vector<ofImage> flagSprite;
 	vector<RainDrop> rainDrops;
 	ofImage spikeImg;
 
@@ -77,6 +91,8 @@ public:
 	ofVec2f playerPos;
 	vector<Trap> traps;
 	vector<JumpPad> jumpPads;
+	vector<VisualElement> visualElements;
+
 
 	void loadLevel(); //next level or previous
 	void renderLevel();
@@ -86,7 +102,7 @@ public:
 	void animateSprite(float deltaTime, vector<ofImage> & spriteList, float & currentFrame, float animationSpeed, ofRectangle rectangle);
 
 	void checkJumpPadCollision(ofRectangle& playerRect);
-	void moveBackground();
+	void moveBackground(ofVec2f playerVel);
 
 	void setupRain();
 	void updateRain();

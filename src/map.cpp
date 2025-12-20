@@ -33,12 +33,21 @@ void Map::loadLevel() {
 		backgroundSprite.push_back(img);
 	}
 
+	for (int x = 0; x < 5; x++) {
+		ofImage img;
+
+		img.load(ofToDataPath("images/flag/" + ofToString(x) + ".png"));
+
+		flagSprite.push_back(img);
+	}
+
 	currentLevel = Levels[0];
 	currentPart = currentLevel[currentPartIndex];
 
 	tiles.clear();
 	traps.clear();
 	jumpPads.clear();
+	visualElements.clear();
 
 	for (int row = 0; row < LEVEL_HEIGHT; row++)
 	{
@@ -105,6 +114,14 @@ void Map::loadLevel() {
 				p.rect = ofRectangle(x, y+1, TILE_SIZE, TILE_SIZE);
 				jumpPads.push_back(p);
 			}
+
+			if (tileChar == 'f')
+			{
+				VisualElement flag;
+				flag.pos=ofRectangle(x, y -10, TILE_SIZE*1.5, TILE_SIZE*1.5);
+				flag.sprite = &flagSprite;
+				visualElements.push_back(flag);
+			}
 		}
 	}
 
@@ -112,7 +129,13 @@ void Map::loadLevel() {
 
 void Map::renderLevel()
 {
-	for (RainDrop drop : rainDrops)
+
+	for (VisualElement& element : visualElements)
+	{
+		animateSprite(ofGetLastFrameTime(), *element.sprite, element.frame, element.animationSpeed, element.pos);
+	}
+
+	for (RainDrop& drop : rainDrops)
 	{
 		float radians = ofDegToRad(90-drop.rotation);
 		float x = drop.pos.x + cos(radians) * drop.length;
@@ -122,7 +145,7 @@ void Map::renderLevel()
 		ofDrawLine(drop.pos, endPos);
 	}
 
-	for (Tile tile : tiles)
+	for (Tile& tile : tiles)
 	{
 
 		ofDrawRectangle(tile.rect.getX(),tile.rect.getY(),tile.rect.getWidth(), tile.rect.getHeight());
@@ -131,7 +154,7 @@ void Map::renderLevel()
 		if (tile.type == '|') stoneImg.draw(tile.rect.getX(), tile.rect.getY(), tile.rect.getWidth(), tile.rect.getHeight());
 	}
 
-	for (Trap trap : traps)
+	for (Trap& trap : traps)
 	{
 		if (trap.type == "s") spikeImg.draw(trap.rectangle.x, trap.rectangle.y, trap.rectangle.width, trap.rectangle.height);
 		if (trap.type == "t" || trap.type == "T") animateSprite(ofGetLastFrameTime(), sawSprite, currentSawFrame, sawAnimationSpeed, trap.rectangle);
@@ -196,19 +219,18 @@ int Map::getLength(const char *** level) {
 
 
 void Map::animateSprite(float deltaTime, vector<ofImage> & spriteList , float& currentFrame, float animationSpeed, ofRectangle rectangle) {
-	currentFrame += jumpPadAnimationSpeed * deltaTime;
+	currentFrame += animationSpeed * deltaTime;
 
 	if (currentFrame > spriteList.size()-1) {
 		currentFrame = 0.0f;
 	}
-	currentFrame += animationSpeed * deltaTime;
 
 	if (currentFrame >= 0 && currentFrame < spriteList.size())
-		spriteList[currentFrame].draw(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+		spriteList[(int)currentFrame].draw(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 }
 
 
-void Map::moveBackground()
+void Map::moveBackground(ofVec2f playerVel)
 {
 	backgroundSprite[0].draw(0, 0, ofGetWidth(), ofGetHeight());
 
@@ -255,9 +277,9 @@ void Map::setupRain()
 	}
 
 	//setup rain sounds
-	rainSound.load(ofToDataPath("sounds/rain.ogg"));
+	rainSound.load(ofToDataPath("sounds/rain.mp4"));
 	rainSound.setLoop(true);
-	rainSound.setVolume(0.2f);
+	rainSound.setVolume(0.12f);
 	rainSound.play();
 }
 
