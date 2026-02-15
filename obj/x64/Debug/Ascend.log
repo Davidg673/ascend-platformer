@@ -1,32 +1,3 @@
-﻿  Scanning sources for module dependencies...
-<<<<<<< HEAD:of_v0.12.1_vs_64_release/apps/myApps/Ascend/obj/x64/Debug/Ascend.log
-  main.cpp
-  map.cpp
-  ofApp.cpp
-=======
->>>>>>> parent of 8f1ff57 (V 1.0):obj/x64/Debug/Ascend.log
-  player.cpp
-LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/FORCE' specification
-ofApp.obj : warning LNK4006: "char const * * LEVEL_1_PART_1" (?LEVEL_1_PART_1@@3PAPEBDA) already defined in main.obj; second definition ignored
-ofApp.obj : warning LNK4006: "char const * * LEVEL_1_PART_2" (?LEVEL_1_PART_2@@3PAPEBDA) already defined in main.obj; second definition ignored
-ofApp.obj : warning LNK4006: "char const * * LEVEL_1_PART_3" (?LEVEL_1_PART_3@@3PAPEBDA) already defined in main.obj; second definition ignored
-ofApp.obj : warning LNK4006: "char const * * LEVEL_1_PART_4" (?LEVEL_1_PART_4@@3PAPEBDA) already defined in main.obj; second definition ignored
-ofApp.obj : warning LNK4006: "char const * * * LEVEL_1" (?LEVEL_1@@3PAPEAPEBDA) already defined in main.obj; second definition ignored
-ofApp.obj : warning LNK4006: "char const * * * * Levels" (?Levels@@3PAPEAPEAPEBDA) already defined in main.obj; second definition ignored
-map.obj : warning LNK4006: "char const * * LEVEL_1_PART_1" (?LEVEL_1_PART_1@@3PAPEBDA) already defined in main.obj; second definition ignored
-map.obj : warning LNK4006: "char const * * LEVEL_1_PART_2" (?LEVEL_1_PART_2@@3PAPEBDA) already defined in main.obj; second definition ignored
-map.obj : warning LNK4006: "char const * * LEVEL_1_PART_3" (?LEVEL_1_PART_3@@3PAPEBDA) already defined in main.obj; second definition ignored
-map.obj : warning LNK4006: "char const * * LEVEL_1_PART_4" (?LEVEL_1_PART_4@@3PAPEBDA) already defined in main.obj; second definition ignored
-map.obj : warning LNK4006: "char const * * * LEVEL_1" (?LEVEL_1@@3PAPEAPEBDA) already defined in main.obj; second definition ignored
-map.obj : warning LNK4006: "char const * * * * Levels" (?Levels@@3PAPEAPEAPEBDA) already defined in main.obj; second definition ignored
-player.obj : warning LNK4006: "char const * * LEVEL_1_PART_1" (?LEVEL_1_PART_1@@3PAPEBDA) already defined in main.obj; second definition ignored
-player.obj : warning LNK4006: "char const * * LEVEL_1_PART_2" (?LEVEL_1_PART_2@@3PAPEBDA) already defined in main.obj; second definition ignored
-player.obj : warning LNK4006: "char const * * LEVEL_1_PART_3" (?LEVEL_1_PART_3@@3PAPEBDA) already defined in main.obj; second definition ignored
-player.obj : warning LNK4006: "char const * * LEVEL_1_PART_4" (?LEVEL_1_PART_4@@3PAPEBDA) already defined in main.obj; second definition ignored
-player.obj : warning LNK4006: "char const * * * LEVEL_1" (?LEVEL_1@@3PAPEAPEBDA) already defined in main.obj; second definition ignored
-player.obj : warning LNK4006: "char const * * * * Levels" (?Levels@@3PAPEAPEAPEBDA) already defined in main.obj; second definition ignored
-     Creating library bin\Ascend_debug.lib and object bin\Ascend_debug.exp
-bin\Ascend_debug.exe : warning LNK4088: image being generated due to /FORCE option; image may not run
-  Ascend.vcxproj -> D:\AscendMaster\of_v0.12.1_vs_64_release\apps\myApps\Ascend\bin\Ascend_debug.exe
+﻿  Ascend.vcxproj -> D:\Ascend Project\of_v0.12.1_vs_64_release\apps\myApps\Ascend\bin\Ascend_debug.exe
   File not found - *.dll
   0 File(s) copied

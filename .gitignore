@@ -52,7 +52,11 @@
 # Ignore build artifacts
 .vs/
 
+#Ignore build folders
+/bin
+/obj/x64
 
-# Keep code
+
+# Code
 !src/
 !bin/data/
