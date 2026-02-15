@@ -53,8 +53,11 @@
 .vs/
 
 #Ignore build folders
-/bin
-/obj/x64
+obj/
+obj/x64/
+x64/
+Debug/
+Release/
 
 
 # Code
