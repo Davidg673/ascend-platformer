@@ -20,16 +20,16 @@ You play through a handcrafted Level 1 made up of multiple connected “parts”
   - Wall slide + wall jump
   - Double jump
   - Air/ground damping for better control
-- ✅ **Hazards & interaction**
+- **Hazards & interaction**
   - Spikes
   - Animated saw traps (static + moving variants)
   - Jump pads that launch the player and reset dash/double-jump
-- ✅ **Visual polish**
+- **Visual polish**
   - Sprite animation sets (idle/walk/jump/fall/dash)
   - Animated environment elements (e.g., flag)
   - Parallax scrolling background layers
   - Rain particle effect
-- ✅ **Audio**
+- **Audio**
   - Jump / dash / walk / land / death sounds
   - Looping rain ambience
 
